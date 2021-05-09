@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 function Todo({ todo }) {
   return (
-    <div>
+    <div className='task'>
       {todo.task}
     </div>
   )
@@ -20,7 +20,15 @@ const [todos, SetTodos] = useState(
 
   return (
     <div className="App">
-     
+      <div className='todo-list'>
+        {todos.map((todo, index) => (
+          <Todo
+          key={index}
+          index={index}
+          todo={todo}
+          />
+        ))}
+      </div>
     </div>
   );
 }
