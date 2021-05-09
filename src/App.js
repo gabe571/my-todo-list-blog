@@ -1,5 +1,13 @@
 import React, { useState } from 'react'
 
+function Todo({ todo }) {
+  return (
+    <div>
+      {todo.task}
+    </div>
+  )
+}
+
 function App() {
 
 const [todos, SetTodos] = useState(
