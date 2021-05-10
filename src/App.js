@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
 
-function Todo({ todo }) {
+function Todo({ todo, index, completeTodo, removeTodo }) {
   return (
-    <div className='task'>
+    <div className='task'   style={{ textDecoration: todo.isCompleted ? "line-through" : "" }}
+    >
       {todo.content}
+      <button onClick={() => completeTodo(index)}> Complete </button>
+      <button onClick={() => removeTodo(index)}> X </button>
     </div>
   )
 }
@@ -27,18 +30,39 @@ function TodoForm ({ addTodo }) {
       value={value}
       onChange={e => setValue(e.target.value)}
       />
+      <button type='submit'> Add Todo </button>
     </form>
   )
 }
 
 function App() {
 
-const [todos, SetTodos] = useState(
+const [todos, setTodos] = useState(
 [
-  { content: "Get Out Of Bed" },
-  { content: "Brew Coffee" },
-  { content: "Make Breakfast" }
+  { content: "Get Out Of Bed",
+    isCompleted: false },
+  { content: "Brew Coffee",
+    isCompleted: false },
+  { content: "Make Breakfast",
+    isCompleted: false }
 ])
+
+const addTodo = content => {
+  const newTodos = [...todos, { content }];
+  setTodos(newTodos);
+};
+
+const completeTodo = index => {
+  const newTodos = [...todos];
+  newTodos[index].isCompleted = true;
+  setTodos(newTodos);
+};
+
+const removeTodo = index => {
+  const newTodos = [...todos];
+  newTodos.splice(index, 1);
+  setTodos(newTodos);
+};
 
 
   return (
@@ -49,9 +73,11 @@ const [todos, SetTodos] = useState(
           key={index}
           index={index}
           todo={todo}
+          completeTodo={completeTodo}
+          removeTodo={removeTodo}
           />
         ))}
-        <TodoForm  />
+        <TodoForm  addTodo={addTodo}/>
       </div>
     </div>
   );
